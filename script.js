@@ -1,7 +1,10 @@
 // Player Factory
 
-const player = (name, marker) => {
-    return {name, marker};
+const initializePlayer = (name, marker) => {
+    return {
+        name,
+        marker
+    };
 }
 
 // Game Initialization
@@ -18,48 +21,76 @@ const gameBoard = (() => {
     }
 
     // initalizing Event-Listeners
+
+    // access game squares
     const squares = document.querySelectorAll(".game-square");
     squares.forEach((element, index) => {
         element.addEventListener("click", (event) => {
-                console.log(event.target) // use this to change the inner HTML
-                console.log(index) // use this to relate back to the game board data
-                if (event.target.textContent.length = 0) {
-                    event.target.textContent = activePlayer.marker
+                if (event.target.textContent.length == 0) {
+                    event.target.textContent = game.activePlayer.marker
+                    board[index] = game.activePlayer.marker
+                    // check winner   
+                    game.remainingMoves -= 1;
+                    game.checkWin();
+                    if (!game.checkWin()) {
+                        game.nextPlayer;
+                    }
                 }
+        })})
                 // want to get rid of pointer event on squares that have been filled out
                 // want to set the respective X or O given the player's turn
                 // want to switch the players turn
                 // want to have a remaining spots counter
-        })
-    })
 
 
     return {board};
+
 })();
 
 // Game Play
 
-const game = () => {
+const game = (() => {
+
     // Players
-    const playerOne = player("Player One", "X")
-    const playerTwo = player("Player Two", "O")
+    const playerOne = initializePlayer("Player 1", "X");
+    const playerTwo = initializePlayer("Player 2", "O");
 
-    // activePlayer will refer to playerOne.name
-    // activePlayer.marker will refer to either playerOne.marker or playerTwo.marker
+    // Setting Active Players
+    let activePlayer = playerOne;
+    let remainingMoves = 9;
+    let gameOver = false;
 
-    // There can only be 9 moves => initialize a counter from 9 -> 0
+    // Need function to announce next player
+    const nextPlayer = player => (player === playerOne) ? playerTwo : playerOne;
 
-    // need to verify after each move that no one has won -> gameWinning function
     // winning combinations:
-    [0,1,2]
-    [3,4,5]
-    [6,7,8]
-    [0,3,6]
-    [1,4,7]
-    [2,5,8]
-    [0,4,8]
+    const winningCombinations = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
     [2,4,6]
-}
+    ];
+    
+    // need to verify after each move that no one has won -> gameWinning function
+    const checkWin = (winningCombinations, player) => {
+        for (i = 0; i < winningCombinations.length; i++) {
+            if (player.marker === gameBoard.board[i][0] && player.marker === gameBoard.board[i][1] && player.marker === gameBoard.board[i][2]){
+                return true
+            }
+        } return false
+    }
 
+    // need to announce game results
+    return {
+        get activePlayer() {return activePlayer},
+        remainingMoves,
+        get gameOver () {return gameOver},
+        get nextPlayer() {return activePlayer = nextPlayer(activePlayer)},
+        checkWin: () => {return gameOver = checkWin(winningCombinations, activePlayer)}
+        }
 
-// Display Controller
+})();
