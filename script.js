@@ -1,10 +1,7 @@
 // Player Factory
 
 const initializePlayer = (name, marker) => {
-    return {
-        name,
-        marker
-    };
+    return {name, marker};
 }
 
 // Game Initialization
@@ -22,27 +19,24 @@ const gameBoard = (() => {
 
     // initalizing Event-Listeners
 
-    // access game squares
+    // Access game squares
     const squares = document.querySelectorAll(".game-square");
-    squares.forEach((element, index) => {
-        element.addEventListener("click", (event) => {
-                if (event.target.textContent.length == 0) {
-                    event.target.textContent = game.activePlayer.marker
-                    board[index] = game.activePlayer.marker
-                    // check winner   
+
+    // Adding Event Listener
+    squares.forEach((square, index) => {
+        square.addEventListener("click", (event) => {
+                if (event.target.textContent.length == 0 && !game.getGameOver()) {
+                    event.target.textContent = game.getActivePlayer().marker
+                    board[index] = game.getActivePlayer().marker
                     game.remainingMoves -= 1;
-                    game.checkWin();
-                    if (!game.checkWin()) {
-                        game.nextPlayer;
+                    game.getCheckWin()
+                    if (!game.gameOver) {
+                        if (game.remainingMoves > 0) {
+                            game.getNextPlayer();
+                        } else if (game.remainingMoves == 0) {
+                            console.log("Draw")
                     }
-                }
-        })})
-                // want to get rid of pointer event on squares that have been filled out
-                // want to set the respective X or O given the player's turn
-                // want to switch the players turn
-                // want to have a remaining spots counter
-
-
+                    }}})})
     return {board};
 
 })();
@@ -61,7 +55,7 @@ const game = (() => {
     let gameOver = false;
 
     // Need function to announce next player
-    const nextPlayer = player => (player === playerOne) ? playerTwo : playerOne;
+    const nextPlayer = player => (player === playerOne) ? activePlayer = playerTwo : activePlayer = playerOne;
 
     // winning combinations:
     const winningCombinations = [
@@ -78,19 +72,35 @@ const game = (() => {
     // need to verify after each move that no one has won -> gameWinning function
     const checkWin = (winningCombinations, player) => {
         for (i = 0; i < winningCombinations.length; i++) {
-            if (player.marker === gameBoard.board[i][0] && player.marker === gameBoard.board[i][1] && player.marker === gameBoard.board[i][2]){
+            const combo = winningCombinations[i];
+            if (player.marker === gameBoard.board[[combo[0]]] 
+                && player.marker === gameBoard.board[[combo[1]]] 
+                && player.marker === gameBoard.board[[combo[2]]]) {
+                console.log(`${player.name} wins!`)
                 return true
             }
         } return false
     }
+    
+    const getActivePlayer = () => activePlayer
+    const getGameOver = () => gameOver
+    const getNextPlayer = () => activePlayer = nextPlayer(activePlayer)
+    const getCheckWin = () => gameOver = checkWin(winningCombinations, activePlayer)
+
 
     // need to announce game results
+    // return {
+    //     get activePlayer() {return activePlayer},
+    //     remainingMoves,
+    //     get gameOver () {return gameOver},
+    //     get nextPlayer() {return activePlayer = nextPlayer(activePlayer)},
+    //     get checkWin() {return gameOver = checkWin(winningCombinations, activePlayer)}
+    //     }
     return {
-        get activePlayer() {return activePlayer},
+        getActivePlayer,
         remainingMoves,
-        get gameOver () {return gameOver},
-        get nextPlayer() {return activePlayer = nextPlayer(activePlayer)},
-        checkWin: () => {return gameOver = checkWin(winningCombinations, activePlayer)}
+        getGameOver,
+        getNextPlayer,
+        getCheckWin,
         }
-
 })();
