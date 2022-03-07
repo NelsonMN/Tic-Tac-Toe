@@ -42,7 +42,7 @@ const game = (()=> {
                     remainingMoves = 9;
                     gameOver = false;
                     resultsDisplay.textContent = ""
-                    playerDisplay.textContent = ""
+                    playerDisplay.textContent = "Player One's Turn!"
                 }
             )})
         
@@ -56,8 +56,8 @@ const game = (()=> {
         return {name, marker}
     }
 
-    const playerOne = player("Player 1", "X");
-    const playerTwo = player("Player 2", "O");
+    const playerOne = player("Player One", "X");
+    const playerTwo = player("Player Two", "O");
 
     // Results Display
     const resultsDisplay = document.getElementById("results");
@@ -98,5 +98,5 @@ const game = (()=> {
     }
     
     return {checkWin, nextPlayer, currentPlayer}
-    
+
 })();
