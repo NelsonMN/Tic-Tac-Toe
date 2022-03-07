@@ -5,7 +5,7 @@
 }
 
 :root {
-    --main-background: rgb(233, 245, 223);
+    --main-background: rgb(225, 248, 205);
     --main-font: 'Leckerli One', cursive;
     --main-font-colour: rgb(99, 170, 251);
     --gameboard-background: rgb(217, 237, 255);
@@ -63,10 +63,21 @@ body {
     cursor: pointer;
 }
 
+.result-display {
+    padding-top: 20px;
+    font-size: 30px;
+
+}
+
+.player-display {
+    font-size: 20px;
+    padding: 20px 0;
+}
+
 .result-display,
 .player-display {
-    height: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -77,14 +88,20 @@ body {
 }
 
 #play-again {
-    padding-top: 15px;
-    padding: 8px 15px;
+    display: flex;
+    justify-items: center;
+    padding: 8px 25px;
     border-radius: 8px;
     cursor: pointer;
+    border-style: none;
+    border: 4px white solid;
+    background-color: var(--main-font-colour);
+    color: white;
 }
 
-.play-again .hidden {
-    display: none;
+#results {
+    height: 50px;
+    padding-bottom: 10px;
 }
 
 .footer {
