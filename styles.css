@@ -12,15 +12,6 @@
     --gameboard-font: 'Secular One', sans-serif;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-a:hover {
-    transform: scale(1.1);
-}
-
 body {
     font-family: var(--gameboard-font);
     display: grid;
@@ -33,6 +24,9 @@ body {
     color: var(--main-font-colour);
 }
 
+
+/* Header */
+
 .header {
     padding-top: 75px;
     justify-self: center;
@@ -43,6 +37,9 @@ body {
     font-size: 65px;
     color: var(--main-font-colour);
 }
+
+
+/* Game Board */
 
 .game-board {
     background-color: var(--gameboard-background);
@@ -62,6 +59,9 @@ body {
     align-items: center;
     cursor: pointer;
 }
+
+
+/* Results Display and Button */
 
 .result-display {
     padding-top: 20px;
@@ -102,6 +102,18 @@ body {
 #results {
     height: 50px;
     padding-bottom: 10px;
+}
+
+
+/* Footer */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    transform: scale(1.1);
 }
 
 .footer {
